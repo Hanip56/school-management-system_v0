@@ -14,6 +14,10 @@ body {
 
 @layer base {
   :root {
+    --sidebar-width: 15rem;
+    --navbar-height: 3rem;
+
+    /* shadcn */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -74,5 +78,15 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /* for date picker */
+  .rdp-vhidden {
+    @apply hidden;
+  }
+}
+
+@layer components {
+  .container {
+    @apply p-2 py-4 md:p-8;
   }
 }
