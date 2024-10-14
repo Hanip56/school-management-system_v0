@@ -1,16 +1,27 @@
 import { navigations } from "@/constants";
-import { SettingsIcon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
-import UserTabSidebar from "./user-tab-sidebar";
+import { YearTabSidebar } from "./year-tab-sidebar";
+import Logo from "@/components/logo";
+import prisma from "@/lib/db";
 
-const NavMenu = () => {
+const NavMenu = async () => {
+  const academicYears = await prisma.academicYear.findMany();
+
+  const years = academicYears.map((year) => ({
+    label: `${year.yearStart.getFullYear()}/${year.yearEnd.getFullYear()}`,
+    value: year.id,
+    active: year.active,
+  }));
+
   return (
     <div className="h-full w-full">
-      <UserTabSidebar />
+      <div className="flex flex-col items-center justify-center pb-4 border-b">
+        <Logo />
+        <YearTabSidebar academicYears={years} />
+      </div>
 
       {/* some settings */}
-      <div className="flex flex-col border-b pb-2">
+      {/* <div className="flex flex-col border-b py-2">
         <Link
           href="#"
           className="px-3 py-2 flex items-center gap-3 hover:bg-zinc-200/80 rounded-md"
@@ -18,7 +29,7 @@ const NavMenu = () => {
           <SettingsIcon className="size-4" strokeWidth={2.5} />
           <span className="text-sm font-semibold">Settings</span>
         </Link>
-      </div>
+      </div> */}
 
       {/* nav menu */}
       <div className="py-4">

@@ -17,36 +17,51 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
-  name: z.string().min(1, {
-    message: "name is required",
-  }),
-  start_date: z.date({
+  yearStart: z.date({
     message: "Start date is required",
   }),
-  end_date: z.date({
+  yearEnd: z.date({
     message: "End date is required",
   }),
 });
 
 const OnboardingPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      start_date: undefined,
-      end_date: undefined,
+      yearStart: undefined,
+      yearEnd: undefined,
     },
   });
+  const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    try {
+      setIsLoading(true);
+      const res = await axios.post(`/api/academic-year`, values);
+
+      toast.success("Successfully create academic year");
+      form.reset();
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to create academic year");
+    }
+
+    setIsLoading(false);
   };
+
+  const disabledCondition = isLoading;
 
   return (
     <div className="bg-zinc-100 w-[100%] h-screen flex items-center justify-center px-2">
@@ -65,53 +80,41 @@ const OnboardingPage = () => {
             >
               <FormField
                 control={form.control}
-                name="name"
+                name="yearStart"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Start Date</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="ex: 2020/2021" />
+                      <DatePicker
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <div className="flex gap-2 [&>*]:flex-1">
-                <FormField
-                  control={form.control}
-                  name="start_date"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Start Date</FormLabel>
-                      <FormControl>
-                        <DatePicker
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="end_date"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>End Date</FormLabel>
-                      <FormControl>
-                        <DatePicker
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <Button variant="success" className="mt-4">
+              <FormField
+                control={form.control}
+                name="yearEnd"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>End Date</FormLabel>
+                    <FormControl>
+                      <DatePicker
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                disabled={disabledCondition}
+                variant="success"
+                className="mt-4"
+              >
                 Create
               </Button>
             </form>
