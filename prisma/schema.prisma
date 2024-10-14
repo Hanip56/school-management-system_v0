@@ -90,6 +90,8 @@ model Class {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([name, academicYearId])
 }
 
 model StudentClass {
