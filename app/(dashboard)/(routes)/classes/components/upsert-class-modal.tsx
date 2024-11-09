@@ -45,10 +45,14 @@ const UpsertClassModal = ({ open, handleClose, initialData }: Props) => {
   });
 
   useEffect(() => {
+    if (!open) {
+      form.setValue("name", "");
+    }
+
     if (initialData?.name) {
       form.setValue("name", initialData.name);
     }
-  }, [initialData]);
+  }, [initialData, form, open]);
 
   const onSubmit = async (values: z.infer<typeof ClassSchema>) => {
     try {

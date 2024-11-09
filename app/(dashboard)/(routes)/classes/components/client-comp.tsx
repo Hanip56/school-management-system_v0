@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SquareArrowOutUpRightIcon, TrashIcon } from "lucide-react";
+import { PlusIcon, SquareArrowOutUpRightIcon, TrashIcon } from "lucide-react";
 import { UpdateIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { Class } from "@prisma/client";
@@ -19,7 +19,6 @@ import { useState } from "react";
 import UpsertClassModal from "./upsert-class-modal";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import UpsertClassTrigger from "./upsert-class-trigger";
 
 type Props = {
   classes: Class[];
@@ -85,7 +84,9 @@ const ClientComp = ({ classes }: Props) => {
           />
           <div className="flex gap-2 items-center">
             <Button variant="outline">Filter</Button>
-            <UpsertClassTrigger />
+            <Button variant="success" onClick={() => setIsUpdateOpen("new")}>
+              <PlusIcon className="size-5 mr-2" /> Add class
+            </Button>
           </div>
         </div>
 

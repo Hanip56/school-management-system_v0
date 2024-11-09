@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import prisma from "./db";
+import { NextResponse } from "next/server";
 
 export const getCurrentUser = async () => {
   const session = await auth();
@@ -15,4 +16,13 @@ export const getCurrentAcademicYear = async () => {
   });
 
   return academicYear;
+};
+
+export const checkIsAdmin = async () => {
+  const user = await getCurrentUser();
+
+  if (user?.role !== "ADMIN")
+    return new NextResponse("Forbidden", { status: 403 });
+
+  return user;
 };

@@ -33,18 +33,26 @@ const NavMenu = async () => {
 
       {/* nav menu */}
       <div className="py-4">
-        <p className="text-xs font-semibold text-zinc-400 px-3">Workspace</p>
         <div className="flex flex-col py-2">
-          {navigations.map((nav) => (
-            <Link
-              key={nav.href}
-              href={nav.href}
-              className="px-3 py-2 flex items-center gap-3 hover:bg-zinc-200/80 rounded-md"
-            >
-              <nav.icon />
-              <span className="text-sm font-medium">{nav.label}</span>
-            </Link>
-          ))}
+          {navigations.map((nav, i) =>
+            nav.href ? (
+              <Link
+                key={nav.href}
+                href={nav.href}
+                className="px-3 py-2 flex items-center gap-3 hover:bg-zinc-200/80 rounded-md"
+              >
+                {nav.icon && <nav.icon />}
+                <span className="text-sm font-medium">{nav.label}</span>
+              </Link>
+            ) : (
+              <div
+                key={i}
+                className="text-xs font-semibold text-zinc-400 px-3 py-2"
+              >
+                {nav.subtitle ?? ""}
+              </div>
+            )
+          )}
         </div>
       </div>
     </div>

@@ -1,10 +1,11 @@
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { Prisma, UserRole } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
-    const { username, email, password } = await req.json();
+    const { username, email, password, role } = await req.json();
 
     if (!username || !email || !password) {
       return new NextResponse(
@@ -23,11 +24,37 @@ export async function POST(req: Request) {
 
     const hashPass = await bcrypt.hash(password, 10);
 
+    let teacher: Prisma.TeacherCreateWithoutUserInput | undefined;
+    let student: Prisma.StudentCreateWithoutUserInput | undefined;
+    let userRole: UserRole = "ADMIN";
+
+    if (role) {
+      switch (role) {
+        case "STUDENT":
+          userRole = "STUDENT";
+          student = {};
+          break;
+        case "TEACHER":
+          userRole = "TEACHER";
+          teacher = {};
+          break;
+        default:
+          break;
+      }
+    }
+
     const user = await prisma.user.create({
       data: {
         username,
         email,
         password: hashPass,
+        role: userRole,
+        teacher: {
+          create: teacher,
+        },
+        student: {
+          create: student,
+        },
       },
     });
 

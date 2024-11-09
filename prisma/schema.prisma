@@ -41,7 +41,7 @@ model User {
 
 model Student {
   id                String             @id @default(auto()) @map("_id") @db.ObjectId
-  user              User?              @relation(fields: [userId], references: [id])
+  user              User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId            String?            @unique @db.ObjectId
   classes           StudentClass[]
   attendanceRecords AttendanceRecord[]
@@ -52,7 +52,7 @@ model Student {
 
 model Teacher {
   id       String         @id @default(auto()) @map("_id") @db.ObjectId
-  user     User           @relation(fields: [userId], references: [id])
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   String         @unique @db.ObjectId
   sessions LearnSession[]
 

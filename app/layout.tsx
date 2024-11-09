@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import TanstackProvider from "@/components/tanstack-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,8 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${font.className} antialiased`}>
-        {children}
-        <Toaster />
+        <TanstackProvider>
+          {children}
+          <Toaster />
+        </TanstackProvider>
       </body>
     </html>
   );
