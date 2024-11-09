@@ -1,4 +1,4 @@
-import { Teacher } from "@prisma/client";
+import { Student, Teacher } from "@prisma/client";
 
 export type UserRole = "ADMIN" | "TEACHER" | "STUDENT";
 
@@ -9,3 +9,4 @@ export type UserShortType = {
 };
 
 export type TeacherWithUser = Teacher & { user: UserShortType };
+export type StudentWithUser = Student & { user: UserShortType };

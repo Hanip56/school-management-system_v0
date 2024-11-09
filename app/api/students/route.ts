@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
       };
     }
 
-    const total_items = await prisma.teacher.count({
+    const total_items = await prisma.student.count({
       where: {
         user: {
           username: { contains: search as string, mode: "insensitive" },
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const teachers = await prisma.teacher.findMany({
+    const students = await prisma.student.findMany({
       where: {
         user: {
           username: { contains: search as string, mode: "insensitive" },
@@ -49,11 +49,11 @@ export async function GET(req: NextRequest) {
     });
 
     return NextResponse.json({
-      data: teachers,
+      data: students,
       total_items,
     });
   } catch (error) {
-    console.log("[TEACHERS_GET]", error);
+    console.log("[STUDENTS_GET]", error);
     return new NextResponse("internal error", { status: 500 });
   }
 }

@@ -45,8 +45,6 @@ export function DataTable<TData, TValue>({
 
   const totalPages = Math.ceil(totalItems / limit);
 
-  console.log({ totalItems, limit });
-
   return (
     <>
       <div className="rounded-md border">
