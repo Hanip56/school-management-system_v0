@@ -3,18 +3,17 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import UpsertStudentSheet from "./upsert-student-sheet";
-import { PlusIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { getAll } from "@/lib/fetcher/student";
+import { getAll } from "@/lib/fetcher/student-class";
 import { useNavigate } from "@/hooks/use-navigate";
 import { DataTable } from "@/components/ui/data-table";
 import { columns } from "./columns";
 import DataTableSkeleton from "@/components/skeletons/data-table-skeleton";
-import { useAcademicYear } from "@/hooks/use-academic-year";
+import { useParams } from "next/navigation";
+import AssignModal from "./assign-modal";
 
 const ClientComp = () => {
-  const { academicYear } = useAcademicYear();
+  const params = useParams();
   const [upsertOpenId, setUpsertOpenId] = useState("");
   const {
     page,
@@ -29,13 +28,14 @@ const ClientComp = () => {
   } = useNavigate();
 
   const query = useQuery({
-    queryKey: ["students", { page, search, limit }],
+    queryKey: ["class", params.id, { page, search, limit }],
     queryFn: () =>
       getAll({
         limit,
         page,
         search,
         updatedAt,
+        classId: params.id as string,
       }),
     placeholderData: (prev) => prev,
   });
@@ -43,7 +43,7 @@ const ClientComp = () => {
   if (query.isLoading || query.isPending) return <DataTableSkeleton />;
   if (query.isError) return <h1>Error...</h1>;
 
-  const students = query.data?.data;
+  const students = query.data?.data.map((d) => d.student);
 
   const initialData = upsertOpenId
     ? students.find((student) => student.user.id === upsertOpenId)
@@ -53,20 +53,15 @@ const ClientComp = () => {
     id: student.user.id,
     username: student.user.username,
     email: student.user.email,
-    currentClass:
-      student.classes.find((c) => c.academicYearId === academicYear?.id)?.class
-        ?.name ?? "-",
   }));
-
-  console.log({ students, academicYear: academicYear?.id });
 
   return (
     <>
-      <UpsertStudentSheet
+      {/* <UpsertTeacherSheet
         open={!!upsertOpenId}
         handleClose={() => setUpsertOpenId("")}
         initialData={initialData}
-      />
+      /> */}
       <main>
         <div className="w-full py-3 border-b flex flex-col md:flex-row gap-4 items-center justify-between">
           <Input
@@ -77,10 +72,7 @@ const ClientComp = () => {
           />
           <div className="w-full justify-end md:justify-start md:w-fit flex gap-2 items-center">
             <Button variant="outline">Filter</Button>
-            <Button variant="success" onClick={() => setUpsertOpenId("new")}>
-              <PlusIcon className="size-5 mr-2" />{" "}
-              <span className="line-clamp-1">Add student</span>
-            </Button>
+            <AssignModal />
           </div>
         </div>
 

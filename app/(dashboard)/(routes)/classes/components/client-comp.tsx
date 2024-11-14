@@ -97,7 +97,10 @@ const ClientComp = ({ classes }: Props) => {
               <CardHeader className="border-b py-4">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-2xl">{classs.name}</CardTitle>
-                  <Link href="#" className="hover:text-emerald-600">
+                  <Link
+                    href={`classes/${classs.id}`}
+                    className="hover:text-emerald-600"
+                  >
                     <SquareArrowOutUpRightIcon className="size-4" />
                   </Link>
                 </div>

@@ -25,9 +25,14 @@ export const useNavigate = (): {
   const updatedAt = params?.updatedAt ? params.updatedAt.toString() : "";
   const [search, setSearch] = useState(params?.search?.toString() ?? "");
   const debouncedSearch = useDebounce(search);
+  const [firstRender, setFirstRender] = useState(true);
+
+  useEffect(() => {
+    setFirstRender(false);
+  }, []);
 
   const handleNavigate = useCallback(
-    (q: Record<string, string | number>) => {
+    (q: Record<string, string | number | undefined>) => {
       const query = {
         ...params,
         ...q,
@@ -81,9 +86,11 @@ export const useNavigate = (): {
 
   // handle Search
   useEffect(() => {
+    if (firstRender) return;
+
     handleNavigate({
       search: debouncedSearch,
-      page: 1,
+      page: undefined,
     });
   }, [debouncedSearch]);
 

@@ -1,4 +1,4 @@
-import { StudentWithUser, StudentWithUserAndClasses } from "@/types";
+import { StudentClassWithUserAndClasses } from "@/types";
 import { axiosInstance } from "../axios";
 import axios from "axios";
 import { DEFAULT_LIMIT_REQUEST } from "../settings";
@@ -8,13 +8,12 @@ type GetAllParams = {
   limit?: number;
   search?: string;
   updatedAt?: string;
+  classId?: string;
 };
 
 type GetAllResponse = {
-  page: number;
-  limit: number;
   total_items: number;
-  data: StudentWithUserAndClasses[];
+  data: StudentClassWithUserAndClasses[];
 };
 
 export const getAll = async ({
@@ -22,16 +21,20 @@ export const getAll = async ({
   limit = DEFAULT_LIMIT_REQUEST,
   search,
   updatedAt,
+  classId,
 }: GetAllParams) => {
   try {
-    const response = await axiosInstance.get<GetAllResponse>("/students", {
-      params: {
-        page,
-        limit,
-        search,
-        updatedAt,
-      },
-    });
+    const response = await axiosInstance.get<GetAllResponse>(
+      `/student-class?classId=${classId}`,
+      {
+        params: {
+          page,
+          limit,
+          search,
+          updatedAt,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -43,14 +46,23 @@ export const getAll = async ({
   }
 };
 
-type UpdateParams = {
-  userId: string;
-  data: Partial<StudentWithUser>;
+type CreateParams = {
+  classId: string;
+  academicYearId: string;
+  studentIds: string[];
 };
 
-export const update = async ({ userId, data }: UpdateParams) => {
+export const create = async ({
+  studentIds,
+  classId,
+  academicYearId,
+}: CreateParams) => {
   try {
-    const response = await axiosInstance.put(`/students/${userId}`, data);
+    const response = await axiosInstance.post(`/student-class`, {
+      classId,
+      academicYearId,
+      studentIds,
+    });
 
     return response.data;
   } catch (error) {

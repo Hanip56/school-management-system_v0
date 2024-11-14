@@ -35,6 +35,11 @@ export async function GET(req: NextRequest) {
         },
       },
       include: {
+        classes: {
+          include: {
+            class: true,
+          },
+        },
         user: {
           select: {
             id: true,

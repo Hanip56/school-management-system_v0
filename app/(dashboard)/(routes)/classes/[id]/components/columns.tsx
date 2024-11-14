@@ -8,7 +8,6 @@ export type ColumnType = {
   id: string;
   username: string;
   email: string;
-  currentClass: string;
 };
 
 export const columns = (
@@ -28,18 +27,11 @@ export const columns = (
       header: "Email",
     },
     {
-      accessorKey: "currentClass",
-      header: ({ column }) => <div className="text-center">Current Class</div>,
-      cell: ({ row }) => (
-        <p className="text-center">{row.original.currentClass}</p>
-      ),
-    },
-    {
       id: "action",
       cell: ({ row }) => (
         <CellActionUser
           data={row.original}
-          roleName="student"
+          roleName="teacher"
           handleOpenUpdate={(id) => setUpsertOpenId(id)}
         />
       ),
