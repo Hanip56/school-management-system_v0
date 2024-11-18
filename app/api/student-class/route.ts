@@ -50,10 +50,8 @@ export async function GET(req: NextRequest) {
           select: {
             classes: true,
             user: {
-              select: {
-                id: true,
-                username: true,
-                email: true,
+              omit: {
+                password: true,
               },
             },
           },

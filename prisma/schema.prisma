@@ -5,12 +5,18 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+enum SexType {
+  MALE
+  FEMALE
 }
 
 enum UserRole {
@@ -40,9 +46,17 @@ model User {
 }
 
 model Student {
-  id                String             @id @default(auto()) @map("_id") @db.ObjectId
-  user              User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId            String?            @unique @db.ObjectId
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String? @unique @db.ObjectId
+
+  firstName String
+  lastName  String?
+  phone     String   @unique
+  address   String
+  birthday  DateTime
+  sex       SexType
+
   classes           StudentClass[]
   attendanceRecords AttendanceRecord[]
 
@@ -51,9 +65,17 @@ model Student {
 }
 
 model Teacher {
-  id       String         @id @default(auto()) @map("_id") @db.ObjectId
-  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   String         @unique @db.ObjectId
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @db.ObjectId
+
+  firstName String
+  lastName  String?
+  phone     String   @unique
+  address   String
+  birthday  DateTime
+  sex       SexType
+
   sessions LearnSession[]
 
   createdAt DateTime @default(now())

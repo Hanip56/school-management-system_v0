@@ -5,11 +5,34 @@ import { Prisma, UserRole } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
-    const { username, email, password, role } = await req.json();
+    const {
+      // general
+      username,
+      email,
+      password,
+      role,
+      // student | teacher - only
+      firstName,
+      lastName,
+      phone,
+      address,
+      birthday,
+      sex,
+    } = await req.json();
 
     if (!username || !email || !password) {
       return new NextResponse(
         "Required field is missing; *username *email *password",
+        { status: 400 }
+      );
+    }
+
+    if (
+      (role === "TEACHER" || role === "STUDENT") &&
+      (!firstName || !phone || !address || !birthday || !sex)
+    ) {
+      return new NextResponse(
+        "Required field is missing; *firstname *phone *address *birthday *sex",
         { status: 400 }
       );
     }
@@ -32,11 +55,25 @@ export async function POST(req: Request) {
       switch (role) {
         case "STUDENT":
           userRole = "STUDENT";
-          student = {};
+          student = {
+            firstName,
+            lastName,
+            address,
+            birthday,
+            phone,
+            sex,
+          };
           break;
         case "TEACHER":
           userRole = "TEACHER";
-          teacher = {};
+          teacher = {
+            firstName,
+            lastName,
+            address,
+            birthday,
+            phone,
+            sex,
+          };
           break;
         default:
           break;

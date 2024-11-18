@@ -16,7 +16,7 @@ const ClassesPage = async ({ params }: { params: { id: string } }) => {
   if (!currentClass) return notFound();
 
   return (
-    <div className="container">
+    <div className="container-dashboard">
       <header className="mb-6">
         {/* <p className="font-medium">✨ Detail Class</p> */}
         <h1 className="text-3xl font-semibold my-1">

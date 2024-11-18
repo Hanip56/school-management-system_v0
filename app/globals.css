@@ -2,17 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
 @layer base {
+  html {
+    font-size: 15px;
+  }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  /* turn of up/down input type number */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   :root {
     --sidebar-width: 15rem;
     --navbar-height: 3rem;
@@ -86,7 +90,13 @@ body {
 }
 
 @layer components {
-  .container {
-    @apply p-2 py-4 md:p-8;
+  .container-dashboard {
+    @apply w-full p-2 py-4 md:p-8;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }

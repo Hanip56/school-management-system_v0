@@ -20,7 +20,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
       <div>
         <Navbar />
         <Sidebar />
-        <main className="pt-[var(--navbar-height)] md:pt-0 md:pl-[var(--sidebar-width)]">
+        <main className="w-full pt-[var(--navbar-height)] md:pt-0 md:pl-[var(--sidebar-width)]">
           {children}
         </main>
       </div>

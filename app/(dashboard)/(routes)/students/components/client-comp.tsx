@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import UpsertStudentSheet from "./upsert-student-sheet";
 import { PlusIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getAll } from "@/lib/fetcher/student";
@@ -12,6 +11,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { columns } from "./columns";
 import DataTableSkeleton from "@/components/skeletons/data-table-skeleton";
 import { useAcademicYear } from "@/hooks/use-academic-year";
+import UpsertStudentDialog from "./upsert-student-dialog";
 
 const ClientComp = () => {
   const { academicYear } = useAcademicYear();
@@ -58,11 +58,9 @@ const ClientComp = () => {
         ?.name ?? "-",
   }));
 
-  console.log({ students, academicYear: academicYear?.id });
-
   return (
     <>
-      <UpsertStudentSheet
+      <UpsertStudentDialog
         open={!!upsertOpenId}
         handleClose={() => setUpsertOpenId("")}
         initialData={initialData}
