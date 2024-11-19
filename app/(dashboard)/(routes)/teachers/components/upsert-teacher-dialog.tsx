@@ -18,8 +18,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { generateStudentSchema } from "@/schemas/student";
-import { StudentWithUser } from "@/types";
+import { generateTeacherSchema } from "@/schemas/teacher";
+import { TeacherWithUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -31,16 +31,16 @@ import { z } from "zod";
 type Props = {
   open: boolean;
   handleClose: () => void;
-  initialData: StudentWithUser | undefined;
+  initialData: TeacherWithUser | undefined;
 };
 
-const UpsertStudentDialog = ({ open, handleClose, initialData }: Props) => {
-  const StudentSchema = generateStudentSchema(!!initialData);
+const UpsertTeacherDialog = ({ open, handleClose, initialData }: Props) => {
+  const TeacherSchema = generateTeacherSchema(!!initialData);
 
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
-  const form = useForm<z.infer<typeof StudentSchema>>({
-    resolver: zodResolver(StudentSchema),
+  const form = useForm<z.infer<typeof TeacherSchema>>({
+    resolver: zodResolver(TeacherSchema),
     defaultValues: {
       username: "",
       email: "",
@@ -75,21 +75,21 @@ const UpsertStudentDialog = ({ open, handleClose, initialData }: Props) => {
     }
   }, [open, form]);
 
-  const onSubmit = async (values: z.infer<typeof StudentSchema>) => {
+  const onSubmit = async (values: z.infer<typeof TeacherSchema>) => {
     try {
       setIsLoading(true);
       const body = {
         ...values,
-        role: "STUDENT",
+        role: "TEACHER",
         birthday: values.birthday.toISOString(),
       };
       const successMessage = initialData
-        ? "Student has been updated"
-        : "Student has been created";
+        ? "Teacher has been updated"
+        : "Teacher has been created";
 
       if (initialData) {
         // update
-        await axios.put(`/api/students/${initialData.user.id}`, body);
+        await axios.put(`/api/teacher/${initialData.user.id}`, body);
       } else {
         // create
         await axios.post(`/api/auth/register`, body);
@@ -97,7 +97,7 @@ const UpsertStudentDialog = ({ open, handleClose, initialData }: Props) => {
 
       toast.success(successMessage);
       form.reset();
-      queryClient.invalidateQueries({ queryKey: ["students"], exact: false });
+      queryClient.invalidateQueries({ queryKey: ["teachers"], exact: false });
       handleClose();
     } catch (error) {
       console.log(error);
@@ -111,7 +111,7 @@ const UpsertStudentDialog = ({ open, handleClose, initialData }: Props) => {
     <Dialog open={open} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent className="max-w-screen-md p-0">
         <DialogHeader className="p-6 pb-0">
-          <DialogTitle>Create student</DialogTitle>
+          <DialogTitle>Create teacher</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="gap-4">
@@ -132,7 +132,7 @@ const UpsertStudentDialog = ({ open, handleClose, initialData }: Props) => {
                           <Input
                             {...field}
                             disabled={isLoading}
-                            placeholder="Enter student username"
+                            placeholder="Enter teacher username"
                           />
                         </FormControl>
                         <FormMessage />
@@ -149,7 +149,7 @@ const UpsertStudentDialog = ({ open, handleClose, initialData }: Props) => {
                           <Input
                             {...field}
                             disabled={isLoading}
-                            placeholder="Enter student email"
+                            placeholder="Enter teacher email"
                           />
                         </FormControl>
                         <FormMessage />
@@ -300,4 +300,4 @@ const UpsertStudentDialog = ({ open, handleClose, initialData }: Props) => {
   );
 };
 
-export default UpsertStudentDialog;
+export default UpsertTeacherDialog;

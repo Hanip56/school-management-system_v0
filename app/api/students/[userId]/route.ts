@@ -24,12 +24,18 @@ export async function PUT(
         userId: params.userId,
       },
       data: {
+        ...body,
         user: {
           update: {
-            username: body?.user?.username ?? undefined,
-            email: body?.user?.email ?? undefined,
+            username: body?.username ?? undefined,
+            email: body?.email ?? undefined,
           },
         },
+        // must be turn to undefined cause these fields are for user entity only
+        username: undefined,
+        password: undefined,
+        email: undefined,
+        role: undefined,
       },
     });
 

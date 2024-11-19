@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { genderEnum } from ".";
 
 export const generateTeacherSchema = (withNoPassword = false) => {
   return z.object({
@@ -13,5 +14,21 @@ export const generateTeacherSchema = (withNoPassword = false) => {
       : z.string().min(6, {
           message: "Minimum password is 6 characters",
         }),
+    firstName: z.string().min(1, {
+      message: "First Name is required",
+    }),
+    lastName: z.string().optional(),
+    phone: z.string().min(1, {
+      message: "Phone is required",
+    }),
+    address: z.string().min(1, {
+      message: "Address is required",
+    }),
+    birthday: z.date({
+      message: "Birthday is required",
+    }),
+    sex: z.enum(genderEnum, {
+      message: "Sex field is required",
+    }),
   });
 };

@@ -24,7 +24,7 @@ export const getAll = async ({
   updatedAt,
 }: GetAllParams) => {
   try {
-    const response = await axiosInstance.get<GetAllResponse>("/teachers", {
+    const response = await axiosInstance.get<GetAllResponse>("/teacher", {
       params: {
         page,
         limit,
@@ -50,7 +50,7 @@ type UpdateParams = {
 
 export const update = async ({ userId, data }: UpdateParams) => {
   try {
-    const response = await axiosInstance.put(`/teachers/${userId}`, data);
+    const response = await axiosInstance.put(`/teacher/${userId}`, data);
 
     return response.data;
   } catch (error) {

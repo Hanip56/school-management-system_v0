@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import UpsertTeacherSheet from "./upsert-teachers-sheet";
 import { PlusIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getAll } from "@/lib/fetcher/teacher";
@@ -11,6 +10,7 @@ import { useNavigate } from "@/hooks/use-navigate";
 import { DataTable } from "@/components/ui/data-table";
 import { columns } from "./columns";
 import DataTableSkeleton from "@/components/skeletons/data-table-skeleton";
+import UpsertTeacherDialog from "./upsert-teacher-dialog";
 
 const ClientComp = () => {
   const [upsertOpenId, setUpsertOpenId] = useState("");
@@ -55,7 +55,7 @@ const ClientComp = () => {
 
   return (
     <>
-      <UpsertTeacherSheet
+      <UpsertTeacherDialog
         open={!!upsertOpenId}
         handleClose={() => setUpsertOpenId("")}
         initialData={initialData}
