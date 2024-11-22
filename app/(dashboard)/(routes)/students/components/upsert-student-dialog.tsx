@@ -67,8 +67,6 @@ const UpsertStudentDialog = ({ open, handleClose, initialData }: Props) => {
     }
   }, [initialData, form]);
 
-  console.log(initialData?.birthday);
-
   useEffect(() => {
     if (!open) {
       form.reset();

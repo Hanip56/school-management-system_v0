@@ -2,19 +2,27 @@ import { IconType } from "react-icons/lib";
 import {
   PiBookmarkLight,
   PiChalkboardTeacherBold,
-  PiExamLight,
   PiNotebook,
   PiStudent,
   PiHouse,
 } from "react-icons/pi";
 import { GoPeople } from "react-icons/go";
 import { SiGoogleclassroom } from "react-icons/si";
-import { MdOutlineAssignment } from "react-icons/md";
 import { TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineProfile } from "react-icons/ai";
 import { RiCalendarEventLine } from "react-icons/ri";
 import { GrAnnounce } from "react-icons/gr";
 import { BiMessageSquareDots } from "react-icons/bi";
+
+export const weekdays = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 type NavType = {
   label: string;

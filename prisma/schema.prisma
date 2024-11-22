@@ -76,7 +76,7 @@ model Teacher {
   birthday  DateTime
   sex       SexType
 
-  sessions LearnSession[]
+  lessons  Lesson[]
   subjects SubjectTeachers[]
 
   createdAt DateTime @default(now())
@@ -91,6 +91,7 @@ model AcademicYear {
   classes      Class[]
   StudentClass StudentClass[]
   subjects     Subject[]
+  Lesson       Lesson[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -99,7 +100,7 @@ model AcademicYear {
 model Subject {
   id             String            @id @default(auto()) @map("_id") @db.ObjectId
   name           String            @unique
-  sessions       LearnSession[]
+  lessons        Lesson[]
   teachers       SubjectTeachers[]
   academicYearId String            @db.ObjectId
   AcademicYear   AcademicYear      @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
@@ -126,7 +127,7 @@ model Class {
   academicYear   AcademicYear   @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
   academicYearId String         @db.ObjectId
   students       StudentClass[]
-  sessions       LearnSession[]
+  lessons        Lesson[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -149,16 +150,18 @@ model StudentClass {
   @@unique([studentId, academicYearId])
 }
 
-model LearnSession {
+model Lesson {
   id                String             @id @default(auto()) @map("_id") @db.ObjectId
   timeStart         DateTime
   timeEnd           DateTime
-  teacher           Teacher            @relation(fields: [teacherId], references: [id])
+  teacher           Teacher            @relation(fields: [teacherId], references: [id], onDelete: Cascade)
   teacherId         String             @db.ObjectId
-  subject           Subject            @relation(fields: [subjectId], references: [id])
+  subject           Subject            @relation(fields: [subjectId], references: [id], onDelete: Cascade)
   subjectId         String             @db.ObjectId
   class             Class              @relation(fields: [classId], references: [id], onDelete: Cascade)
   classId           String             @db.ObjectId
+  academicYearId    String             @db.ObjectId
+  academicYear      AcademicYear       @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
   attendanceRecords AttendanceRecord[]
 
   createdAt DateTime @default(now())
@@ -169,8 +172,8 @@ model AttendanceRecord {
   id        String           @id @default(auto()) @map("_id") @db.ObjectId
   student   Student          @relation(fields: [studentId], references: [id])
   studentId String           @db.ObjectId
-  session   LearnSession     @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  sessionId String           @db.ObjectId
+  lesson    Lesson           @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lessonId  String           @db.ObjectId
   status    AttendanceStatus
 
   createdAt DateTime @default(now())

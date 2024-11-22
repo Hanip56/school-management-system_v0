@@ -2,7 +2,7 @@
 
 import SelectGender from "@/components/select-gender";
 import { Button } from "@/components/ui/button";
-import DatePicker from "@/components/ui/date-picker";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   Dialog,
   DialogContent,
@@ -243,7 +243,8 @@ const UpsertTeacherDialog = ({ open, handleClose, initialData }: Props) => {
                       <FormItem>
                         <FormLabel>Birthday</FormLabel>
                         <FormControl>
-                          <DatePicker
+                          <DateTimePicker
+                            granularity="day"
                             value={field.value}
                             onChange={field.onChange}
                           />

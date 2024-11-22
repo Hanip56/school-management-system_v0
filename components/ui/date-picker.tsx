@@ -43,7 +43,7 @@ const DatePicker = ({ value, onChange }: Props) => {
         <PopoverContent className="w-auto p-0">
           <Calendar
             mode="single"
-            captionLayout="dropdown-buttons"
+            captionLayout="dropdown"
             selected={value}
             locale={enUS}
             onSelect={onChange}
