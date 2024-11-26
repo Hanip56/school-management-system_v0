@@ -1,27 +1,60 @@
-"use client";
-
 import CellActionUser from "@/components/cell-action/cell-action-user";
+import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { SetStateAction } from "react";
 
 export type ColumnType = {
   id: string;
   username: string;
+  gender: string;
+  phone: string;
   email: string;
   currentClass: string;
 };
 
-export const columns = (
-  setUpsertOpenId: (value: SetStateAction<string>) => void
-): ColumnDef<ColumnType>[] => {
+type Props = {
+  setUpsertOpenId: (value: SetStateAction<string>) => void;
+  selectedIds: string[];
+  setSelectedIds: (value: SetStateAction<string[]>) => void;
+};
+export const columns = ({
+  setUpsertOpenId,
+  selectedIds,
+  setSelectedIds,
+}: Props): ColumnDef<ColumnType>[] => {
   return [
+    {
+      id: "checkbox",
+      cell: ({ row }) => (
+        <Checkbox
+          checked={selectedIds.includes(row.original.id)}
+          onCheckedChange={(e) =>
+            setSelectedIds((prev) =>
+              e
+                ? [...prev, row.original.id]
+                : prev.filter((v) => v !== row.original.id)
+            )
+          }
+        ></Checkbox>
+      ),
+    },
     {
       accessorKey: "id",
       header: "ID",
+      cell: ({ row }) => <p>{row.original.id.slice(0, 8)}</p>,
     },
     {
       accessorKey: "username",
       header: "Username",
+    },
+    {
+      accessorKey: "gender",
+      header: "Gender",
+      cell: ({ row }) => <p>{row.original.gender.substring(0, 1)}</p>,
+    },
+    {
+      accessorKey: "phone",
+      header: "Phone",
     },
     {
       accessorKey: "email",

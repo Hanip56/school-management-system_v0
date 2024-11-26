@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import DatePicker from "@/components/ui/date-picker";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   Form,
   FormControl,
@@ -85,7 +85,8 @@ const OnboardingPage = () => {
                   <FormItem>
                     <FormLabel>Start Date</FormLabel>
                     <FormControl>
-                      <DatePicker
+                      <DateTimePicker
+                        granularity="day"
                         value={field.value}
                         onChange={field.onChange}
                       />
@@ -101,7 +102,8 @@ const OnboardingPage = () => {
                   <FormItem>
                     <FormLabel>End Date</FormLabel>
                     <FormControl>
-                      <DatePicker
+                      <DateTimePicker
+                        granularity="day"
                         value={field.value}
                         onChange={field.onChange}
                       />

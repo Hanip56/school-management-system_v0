@@ -41,13 +41,14 @@ export async function POST(req: NextRequest) {
 
     if (!user) return new NextResponse("Unauthorized", { status: 404 });
 
-    const { yearStart, yearEnd } = await req.json();
+    const { yearStart, yearEnd, label } = await req.json();
 
     if (!yearStart || !yearEnd)
       return new NextResponse("Required field is missing", { status: 400 });
 
     const academicYear = await prisma.academicYear.create({
       data: {
+        label,
         yearStart,
         yearEnd,
         active: true,

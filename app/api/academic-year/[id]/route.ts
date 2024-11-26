@@ -51,7 +51,7 @@ export async function PATCH(
 
     return NextResponse.json(academicYearUpdated);
   } catch (error) {
-    console.log("[ACADEMIC_YEAR_POST]", error);
+    console.log("[ACADEMIC_YEAR_PATCH]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }

@@ -10,9 +10,16 @@ import { GoPeople } from "react-icons/go";
 import { SiGoogleclassroom } from "react-icons/si";
 import { TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineProfile } from "react-icons/ai";
-import { RiCalendarEventLine } from "react-icons/ri";
-import { GrAnnounce } from "react-icons/gr";
+import {
+  RiCalendarEventLine,
+  RiDashboardLine,
+  RiSettings2Line,
+} from "react-icons/ri";
+import { GrAnnounce, GrSchedule } from "react-icons/gr";
 import { BiMessageSquareDots } from "react-icons/bi";
+import { HiOutlineUserPlus } from "react-icons/hi2";
+import { GrGroup } from "react-icons/gr";
+import { FaInfo, FaAngleDoubleUp } from "react-icons/fa";
 
 export const weekdays = [
   "Sunday",
@@ -31,6 +38,7 @@ type NavType = {
 };
 
 type NavListType = {
+  type: "subtitle" | "single" | "multiple";
   label?: string;
   subtitle?: string;
   href?: string;
@@ -40,27 +48,80 @@ type NavListType = {
 
 export const navigations: NavListType[] = [
   {
+    type: "subtitle",
     subtitle: "Workspace",
   },
   {
-    label: "Home",
+    type: "single",
+    label: "Dashboard",
     href: "/",
-    icon: PiHouse,
+    icon: RiDashboardLine,
   },
   {
+    type: "multiple",
+    label: "Admission",
+    href: "/admission",
+    icon: HiOutlineUserPlus,
+    sub: [
+      {
+        label: "Admit student",
+        href: "/admission/admit-student",
+        icon: PiStudent,
+      },
+      {
+        label: "Admit bulk student",
+        href: "/admission/admit-bulk-student",
+        icon: GrGroup,
+      },
+    ],
+  },
+  {
+    type: "multiple",
+    label: "Students",
+    href: "/students",
+    icon: PiStudent,
+    sub: [
+      {
+        label: "Student information",
+        href: "/students",
+        icon: FaInfo,
+      },
+      {
+        label: "Student promotion",
+        href: "/students/promotion",
+        icon: FaAngleDoubleUp,
+      },
+    ],
+  },
+  {
+    type: "single",
     label: "Classes",
     href: "/classes",
     icon: SiGoogleclassroom,
   },
   {
+    type: "single",
     label: "Subjects",
     href: "/subjects",
     icon: PiBookmarkLight,
   },
   {
+    type: "multiple",
     label: "Lessons",
     href: "/lessons",
     icon: PiNotebook,
+    sub: [
+      {
+        label: "List lesson",
+        href: "/lessons",
+        icon: PiNotebook,
+      },
+      {
+        label: "Schedule",
+        href: "/lessons/schedule",
+        icon: GrSchedule,
+      },
+    ],
   },
   // {
   //   label: "Exams",
@@ -72,48 +133,52 @@ export const navigations: NavListType[] = [
   //   href: "/assignments",
   //   icon: MdOutlineAssignment,
   // },
+  // {
+  //   label: "Results",
+  //   href: "/results",
+  //   icon: TbReportAnalytics,
+  // },
+  // {
+  //   label: "Attendance",
+  //   href: "/attendance",
+  //   icon: AiOutlineProfile,
+  // },
+  // {
+  //   label: "Events",
+  //   href: "/events",
+  //   icon: RiCalendarEventLine,
+  // },
+  // {
+  //   label: "Announcement",
+  //   href: "/announcement",
+  //   icon: GrAnnounce,
+  // },
+  // {
+  //   label: "Messages",
+  //   href: "/messages",
+  //   icon: BiMessageSquareDots,
+  // },
   {
-    label: "Results",
-    href: "/results",
-    icon: TbReportAnalytics,
-  },
-  {
-    label: "Attendance",
-    href: "/attendance",
-    icon: AiOutlineProfile,
-  },
-  {
-    label: "Events",
-    href: "/events",
-    icon: RiCalendarEventLine,
-  },
-  {
-    label: "Announcement",
-    href: "/announcement",
-    icon: GrAnnounce,
-  },
-  {
-    label: "Messages",
-    href: "/messages",
-    icon: BiMessageSquareDots,
-  },
-  {
+    type: "subtitle",
     subtitle: "Users",
   },
   {
+    type: "single",
     label: "Teachers",
     href: "/teachers",
     icon: PiChalkboardTeacherBold,
   },
   {
-    label: "Students",
-    href: "/students",
-    icon: PiStudent,
-  },
-  {
+    type: "single",
     label: "Parents",
     href: "/parents",
     icon: GoPeople,
+  },
+  {
+    type: "single",
+    label: "Settings",
+    href: "/settings",
+    icon: RiSettings2Line,
   },
   // {
   //   label: "Users",
