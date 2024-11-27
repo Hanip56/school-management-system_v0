@@ -2,9 +2,11 @@ import CellActionUser from "@/components/cell-action/cell-action-user";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { SetStateAction } from "react";
+import { SelectedId } from "./client-comp";
 
 export type ColumnType = {
-  id: string;
+  userId: string;
+  studentId: string;
   username: string;
   gender: string;
   phone: string;
@@ -14,8 +16,8 @@ export type ColumnType = {
 
 type Props = {
   setUpsertOpenId: (value: SetStateAction<string>) => void;
-  selectedIds: string[];
-  setSelectedIds: (value: SetStateAction<string[]>) => void;
+  selectedIds: SelectedId[];
+  setSelectedIds: (value: SetStateAction<SelectedId[]>) => void;
 };
 export const columns = ({
   setUpsertOpenId,
@@ -27,21 +29,29 @@ export const columns = ({
       id: "checkbox",
       cell: ({ row }) => (
         <Checkbox
-          checked={selectedIds.includes(row.original.id)}
+          checked={selectedIds.some(
+            (sid) => sid.userId === row.original.userId
+          )}
           onCheckedChange={(e) =>
             setSelectedIds((prev) =>
               e
-                ? [...prev, row.original.id]
-                : prev.filter((v) => v !== row.original.id)
+                ? [
+                    ...prev,
+                    {
+                      userId: row.original.userId,
+                      studentId: row.original.studentId,
+                    },
+                  ]
+                : prev.filter((v) => v.userId !== row.original.userId)
             )
           }
         ></Checkbox>
       ),
     },
     {
-      accessorKey: "id",
-      header: "ID",
-      cell: ({ row }) => <p>{row.original.id.slice(0, 8)}</p>,
+      accessorKey: "studentId",
+      header: "Student ID",
+      cell: ({ row }) => <p>{row.original.studentId.slice(0, 8)}</p>,
     },
     {
       accessorKey: "username",
@@ -71,7 +81,11 @@ export const columns = ({
       id: "action",
       cell: ({ row }) => (
         <CellActionUser
-          data={row.original}
+          data={{
+            id: row.original.userId,
+            email: row.original.email,
+            username: row.original.username,
+          }}
           roleName="student"
           handleOpenUpdate={(id) => setUpsertOpenId(id)}
         />

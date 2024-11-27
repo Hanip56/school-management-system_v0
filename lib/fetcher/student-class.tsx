@@ -73,3 +73,51 @@ export const create = async ({
     }
   }
 };
+
+type CreateMultipleParams = {
+  classId: string;
+  academicYearId: string;
+  studentIds: string[];
+};
+
+// bulk assign student
+export const createMultiple = async ({
+  studentIds,
+  classId,
+  academicYearId,
+}: CreateMultipleParams) => {
+  try {
+    const response = await axiosInstance.post(`/student-class/multiple`, {
+      classId,
+      academicYearId,
+      studentIds,
+    });
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Axios error: ${error.message}`);
+    } else {
+      throw new Error(`Unexpected error: ${error}`);
+    }
+  }
+};
+
+export const deleteMultiple = async ({ ids }: { ids: string[] }) => {
+  try {
+    const response = await axiosInstance.post(
+      `/student-class/delete-multiple`,
+      {
+        ids,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Axios error: ${error.message}`);
+    } else {
+      throw new Error(`Unexpected error: ${error}`);
+    }
+  }
+};

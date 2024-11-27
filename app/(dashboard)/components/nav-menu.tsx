@@ -29,7 +29,7 @@ const NavMenu = () => {
           {navigations.map((nav, i) =>
             nav.href && nav.type === "single" ? (
               <Link
-                key={nav.href}
+                key={i}
                 href={nav.href}
                 className={cn(
                   "px-3 py-2 flex items-center gap-3 rounded-md",
@@ -42,10 +42,10 @@ const NavMenu = () => {
                 <span className="text-sm font-medium">{nav.label}</span>
               </Link>
             ) : nav.href && nav.sub && nav.type === "multiple" ? (
-              <Collapsible>
+              <Collapsible key={nav.href}>
                 <CollapsibleTrigger asChild className="relative">
                   <button
-                    key={nav.href}
+                    key={i}
                     className={cn(
                       "w-full px-3 py-2 flex items-center gap-3 rounded-md cursor-pointer",
                       nav.href === shortPathname
@@ -61,9 +61,9 @@ const NavMenu = () => {
                   </button>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="py-1">
-                  {nav.sub.map((subNav) => (
+                  {nav.sub.map((subNav, i) => (
                     <Link
-                      key={`sub-${subNav.href}`}
+                      key={i}
                       href={subNav.href}
                       className={cn(
                         "px-3 pl-[0.9rem] py-2 flex items-center gap-3 rounded-md",
@@ -89,7 +89,7 @@ const NavMenu = () => {
               </Collapsible>
             ) : (
               <div
-                key={i}
+                key={nav.subtitle}
                 className="text-xs font-semibold text-zinc-400 px-3 py-2"
               >
                 {nav.subtitle ?? ""}
