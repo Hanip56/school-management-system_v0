@@ -123,12 +123,13 @@ model SubjectTeachers {
 }
 
 model Class {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
-  academicYear   AcademicYear   @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
-  academicYearId String         @db.ObjectId
-  students       StudentClass[]
-  lessons        Lesson[]
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  academicYear     AcademicYear       @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
+  academicYearId   String             @db.ObjectId
+  students         StudentClass[]
+  lessons          Lesson[]
+  AttendanceRecord AttendanceRecord[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -152,18 +153,17 @@ model StudentClass {
 }
 
 model Lesson {
-  id                String             @id @default(auto()) @map("_id") @db.ObjectId
-  timeStart         DateTime
-  timeEnd           DateTime
-  teacher           Teacher            @relation(fields: [teacherId], references: [id], onDelete: Cascade)
-  teacherId         String             @db.ObjectId
-  subject           Subject            @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  subjectId         String             @db.ObjectId
-  class             Class              @relation(fields: [classId], references: [id], onDelete: Cascade)
-  classId           String             @db.ObjectId
-  academicYearId    String             @db.ObjectId
-  academicYear      AcademicYear       @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
-  attendanceRecords AttendanceRecord[]
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  timeStart      DateTime
+  timeEnd        DateTime
+  teacher        Teacher      @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId      String       @db.ObjectId
+  subject        Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  subjectId      String       @db.ObjectId
+  class          Class        @relation(fields: [classId], references: [id], onDelete: Cascade)
+  classId        String       @db.ObjectId
+  academicYearId String       @db.ObjectId
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -171,11 +171,13 @@ model Lesson {
 
 model AttendanceRecord {
   id        String           @id @default(auto()) @map("_id") @db.ObjectId
-  student   Student          @relation(fields: [studentId], references: [id])
+  student   Student          @relation(fields: [studentId], references: [id], onDelete: Cascade)
   studentId String           @db.ObjectId
-  lesson    Lesson           @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  lessonId  String           @db.ObjectId
+  class     Class            @relation(fields: [classId], references: [id], onDelete: Cascade)
+  classId   String           @db.ObjectId
   status    AttendanceStatus
+  date      DateTime
+  remarks   String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

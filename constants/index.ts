@@ -17,9 +17,11 @@ import {
 } from "react-icons/ri";
 import { GrAnnounce, GrSchedule } from "react-icons/gr";
 import { BiMessageSquareDots } from "react-icons/bi";
-import { HiOutlineUserPlus } from "react-icons/hi2";
+import { HiOutlineUserPlus, HiMiniPencilSquare } from "react-icons/hi2";
 import { GrGroup } from "react-icons/gr";
 import { FaInfo, FaAngleDoubleUp } from "react-icons/fa";
+import { CiViewList } from "react-icons/ci";
+import { MdViewTimeline } from "react-icons/md";
 
 export const weekdays = [
   "Sunday",
@@ -120,6 +122,24 @@ export const navigations: NavListType[] = [
         label: "Schedule",
         href: "/lessons/schedule",
         icon: GrSchedule,
+      },
+    ],
+  },
+  {
+    type: "multiple",
+    label: "Attendance",
+    href: "/attendance",
+    icon: CiViewList,
+    sub: [
+      {
+        label: "Set attendance",
+        href: "/attendance",
+        icon: HiMiniPencilSquare,
+      },
+      {
+        label: "View attendance",
+        href: "/attendance/view",
+        icon: MdViewTimeline,
       },
     ],
   },

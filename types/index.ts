@@ -1,4 +1,5 @@
 import {
+  AttendanceRecord,
   Class,
   Lesson,
   SexType,
@@ -36,4 +37,10 @@ export type LessonFull = Omit<Lesson, "timeStart timeEnd"> & {
   // change to string for fetching in the client
   timeStart: string;
   timeEnd: string;
+};
+
+export type StudentWithAttendance = {
+  id: string;
+  user: { id: string; username: string };
+  attendanceRecords: AttendanceRecord[];
 };

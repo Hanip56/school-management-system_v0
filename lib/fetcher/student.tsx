@@ -1,4 +1,8 @@
-import { StudentWithUser, StudentWithUserAndClasses } from "@/types";
+import {
+  StudentWithAttendance,
+  StudentWithUser,
+  StudentWithUserAndClasses,
+} from "@/types";
 import { axiosInstance } from "../axios";
 import axios from "axios";
 import { DEFAULT_LIMIT_REQUEST } from "../settings";
@@ -35,6 +39,40 @@ export const getAll = async ({
         classId,
       },
     });
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Axios error: ${error.message}`);
+    } else {
+      throw new Error(`Unexpected error: ${error}`);
+    }
+  }
+};
+
+type GetStudentWithAttendanceParams = {
+  classId: string;
+  date: string;
+};
+
+type GetStudentWithAttendanceResponse = {
+  data: StudentWithAttendance[];
+};
+
+export const getStudentWithAttendance = async ({
+  classId,
+  date,
+}: GetStudentWithAttendanceParams) => {
+  try {
+    const response = await axiosInstance.get<GetStudentWithAttendanceResponse>(
+      "/students/attendance",
+      {
+        params: {
+          classId,
+          date,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
