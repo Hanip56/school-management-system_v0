@@ -52,7 +52,9 @@ export const getAll = async ({
 
 type GetStudentWithAttendanceParams = {
   classId: string;
-  date: string;
+  date?: string;
+  month?: string;
+  year?: string;
 };
 
 type GetStudentWithAttendanceResponse = {
@@ -62,6 +64,8 @@ type GetStudentWithAttendanceResponse = {
 export const getStudentWithAttendance = async ({
   classId,
   date,
+  month,
+  year,
 }: GetStudentWithAttendanceParams) => {
   try {
     const response = await axiosInstance.get<GetStudentWithAttendanceResponse>(
@@ -70,6 +74,8 @@ export const getStudentWithAttendance = async ({
         params: {
           classId,
           date,
+          month,
+          year,
         },
       }
     );

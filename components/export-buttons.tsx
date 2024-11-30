@@ -15,6 +15,7 @@ type Props = {
 const ExportButtons = React.forwardRef<HTMLTableElement, Props>(
   ({ data }, ref) => {
     const keys = data?.[0] ? Object.keys(data[0]) : [];
+    console.log({ data });
 
     // csv
     const headers = data?.[0]
@@ -26,10 +27,16 @@ const ExportButtons = React.forwardRef<HTMLTableElement, Props>(
 
     // PDF
     const handlePdf = () => {
-      const doc = new jsPDF();
+      const doc = new jsPDF({
+        orientation: "landscape", // Specify landscape mode
+        unit: "mm", // Measurement unit (optional)
+        format: "a4",
+      });
       const pdfColumn = keys.map(
         (key) => key.substring(0, 1).toUpperCase() + key.slice(1)
       );
+      console.log({ data });
+
       const pdfRows = data.map((d) => {
         const row: any[] = [];
         keys.map((key) => row.push(d[key]));
@@ -61,6 +68,7 @@ const ExportButtons = React.forwardRef<HTMLTableElement, Props>(
       <div className="flex flex-wrap gap-2 [&>*]:text-[0.65rem]">
         <CSVLink data={data} headers={headers}>
           <Button
+            type="button"
             size="sm"
             // className="text-[0.65rem] bg-yellow-600 hover:bg-yellow-600/80"
             variant="outline"
@@ -70,6 +78,7 @@ const ExportButtons = React.forwardRef<HTMLTableElement, Props>(
           </Button>
         </CSVLink>
         <Button
+          type="button"
           size="sm"
           onClick={handlePdf}
           // className="bg-orange-600 hover:bg-orange-600/80"
@@ -79,6 +88,7 @@ const ExportButtons = React.forwardRef<HTMLTableElement, Props>(
           PDF
         </Button>
         <Button
+          type="button"
           size="sm"
           onClick={handleExcel}
           // className="bg-green-600 hover:bg-green-600/80"
@@ -87,7 +97,7 @@ const ExportButtons = React.forwardRef<HTMLTableElement, Props>(
           <GrDocumentExcel className="mr-2" />
           EXCEL
         </Button>
-        {/* <Button size="sm" onClick={() => handlePrint()}>
+        {/* <Button type="button" size="sm" onClick={() => handlePrint()}>
           <GrPrint className="mr-2" />
           PRINT
         </Button> */}
