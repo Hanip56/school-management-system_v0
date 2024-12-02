@@ -1,6 +1,7 @@
 import {
   AttendanceRecord,
   Class,
+  Exam,
   Lesson,
   SexType,
   Student,
@@ -38,9 +39,11 @@ export type LessonFull = Omit<Lesson, "timeStart timeEnd"> & {
   timeStart: string;
   timeEnd: string;
 };
-
 export type StudentWithAttendance = {
   id: string;
   user: { id: string; username: string };
   attendanceRecords: AttendanceRecord[];
+};
+export type ExamWithClass = Exam & {
+  class: Class;
 };

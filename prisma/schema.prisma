@@ -93,6 +93,7 @@ model AcademicYear {
   StudentClass StudentClass[]
   subjects     Subject[]
   Lesson       Lesson[]
+  Exam         Exam[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -130,6 +131,7 @@ model Class {
   students         StudentClass[]
   lessons          Lesson[]
   AttendanceRecord AttendanceRecord[]
+  Exam             Exam[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -178,6 +180,20 @@ model AttendanceRecord {
   status    AttendanceStatus
   date      DateTime
   remarks   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Exam {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+
+  class          Class?       @relation(fields: [classId], references: [id], onDelete: Cascade)
+  classId        String?      @db.ObjectId
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
+  academicYearId String       @db.ObjectId
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

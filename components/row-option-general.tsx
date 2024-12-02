@@ -11,7 +11,7 @@ import Link from "next/link";
 import { UpdateIcon } from "@radix-ui/react-icons";
 
 type Props = {
-  detailHref: string;
+  detailHref?: string;
   handleUpdate: () => void;
   handleDelete: () => void;
 };
@@ -30,11 +30,13 @@ const RowOptionGeneral = ({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem asChild>
-          <Link href={detailHref} className="flex items-center">
-            <ScanSearch className="mr-2 size-4" /> Detail
-          </Link>
-        </DropdownMenuItem>
+        {detailHref && (
+          <DropdownMenuItem asChild>
+            <Link href={detailHref} className="flex items-center">
+              <ScanSearch className="mr-2 size-4" /> Detail
+            </Link>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem onClick={handleUpdate}>
           <UpdateIcon className="mr-2 size-4" /> Update
         </DropdownMenuItem>

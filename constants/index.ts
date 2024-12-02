@@ -5,6 +5,8 @@ import {
   PiNotebook,
   PiStudent,
   PiHouse,
+  PiExamLight,
+  PiExamFill,
 } from "react-icons/pi";
 import { GoPeople } from "react-icons/go";
 import { SiGoogleclassroom } from "react-icons/si";
@@ -143,11 +145,19 @@ export const navigations: NavListType[] = [
       },
     ],
   },
-  // {
-  //   label: "Exams",
-  //   href: "/exams",
-  //   icon: PiExamLight,
-  // },
+  {
+    type: "multiple",
+    label: "Exams",
+    href: "/exams",
+    icon: PiExamLight,
+    sub: [
+      {
+        label: "Exam list",
+        href: "/exams",
+        icon: PiExamFill,
+      },
+    ],
+  },
   // {
   //   label: "Assignments",
   //   href: "/assignments",

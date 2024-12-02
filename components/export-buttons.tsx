@@ -9,7 +9,7 @@ import * as XLSX from "xlsx";
 import { GrDocumentCsv, GrDocumentExcel, GrDocumentPdf } from "react-icons/gr";
 
 type Props = {
-  data: Record<string, string>[];
+  data: Record<string, string | undefined | null>[];
 };
 
 const ExportButtons = React.forwardRef<HTMLTableElement, Props>(
@@ -35,7 +35,6 @@ const ExportButtons = React.forwardRef<HTMLTableElement, Props>(
       const pdfColumn = keys.map(
         (key) => key.substring(0, 1).toUpperCase() + key.slice(1)
       );
-      console.log({ data });
 
       const pdfRows = data.map((d) => {
         const row: any[] = [];
