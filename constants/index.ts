@@ -10,7 +10,7 @@ import {
 } from "react-icons/pi";
 import { GoPeople } from "react-icons/go";
 import { SiGoogleclassroom } from "react-icons/si";
-import { TbReportAnalytics } from "react-icons/tb";
+import { TbPoint, TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineProfile } from "react-icons/ai";
 import {
   RiCalendarEventLine,
@@ -155,6 +155,11 @@ export const navigations: NavListType[] = [
         label: "Exam list",
         href: "/exams",
         icon: PiExamFill,
+      },
+      {
+        label: "Exam grades",
+        href: "/exams/grades",
+        icon: TbPoint,
       },
     ],
   },

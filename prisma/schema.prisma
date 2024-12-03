@@ -194,6 +194,20 @@ model Exam {
   classId        String?      @db.ObjectId
   academicYear   AcademicYear @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
   academicYearId String       @db.ObjectId
+  grades         Grade[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Grade {
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  fromPercentage Int
+  toPercentage   Int
+
+  exam   Exam   @relation(fields: [examId], references: [id], onDelete: Cascade)
+  examId String @db.ObjectId
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

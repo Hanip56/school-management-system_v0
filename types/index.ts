@@ -2,6 +2,7 @@ import {
   AttendanceRecord,
   Class,
   Exam,
+  Grade,
   Lesson,
   SexType,
   Student,
@@ -47,3 +48,4 @@ export type StudentWithAttendance = {
 export type ExamWithClass = Exam & {
   class: Class;
 };
+export type GradeWithExam = Grade & { exam: Exam };

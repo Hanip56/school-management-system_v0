@@ -1,12 +1,12 @@
+import { GradeWithExam } from "@/types";
+import { DEFAULT_LIMIT_REQUEST } from "../settings";
 import { axiosInstance } from "../axios";
 import axios from "axios";
-import { DEFAULT_LIMIT_REQUEST } from "../settings";
-import { ExamWithClass } from "@/types";
 
 type GetAllParams = {
   page?: number;
   limit?: number;
-  classId: string;
+  examId: string;
   search?: string;
   updatedAt?: string;
 };
@@ -15,7 +15,7 @@ type GetAllResponse = {
   page: number;
   limit: number;
   total_items: number;
-  data: ExamWithClass[];
+  data: GradeWithExam[];
 };
 
 export const getAll = async ({
@@ -23,16 +23,16 @@ export const getAll = async ({
   limit = DEFAULT_LIMIT_REQUEST,
   search,
   updatedAt,
-  classId,
+  examId,
 }: GetAllParams) => {
   try {
-    const response = await axiosInstance.get<GetAllResponse>("/exam", {
+    const response = await axiosInstance.get<GetAllResponse>("/grade", {
       params: {
         page,
         limit,
         search,
         updatedAt,
-        classId,
+        examId,
       },
     });
 
@@ -48,12 +48,12 @@ export const getAll = async ({
 
 type UpdateParams = {
   id: string;
-  data: Partial<ExamWithClass>;
+  data: Partial<GradeWithExam>;
 };
 
 export const update = async ({ id, data }: UpdateParams) => {
   try {
-    const response = await axiosInstance.put(`/exam/${id}`, data);
+    const response = await axiosInstance.put(`/grade/${id}`, data);
 
     return response.data;
   } catch (error) {
@@ -67,21 +67,7 @@ export const update = async ({ id, data }: UpdateParams) => {
 
 export const deleteOne = async (id: string) => {
   try {
-    const response = await axiosInstance.delete(`/exam/${id}`);
-
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(`Axios error: ${error.message}`);
-    } else {
-      throw new Error(`Unexpected error: ${error}`);
-    }
-  }
-};
-
-export const getExamWithGrades = async (examId: string) => {
-  try {
-    const response = await axiosInstance.get(`/exam/grade`);
+    const response = await axiosInstance.delete(`/grade/${id}`);
 
     return response.data;
   } catch (error) {
