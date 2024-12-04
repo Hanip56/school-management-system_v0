@@ -59,6 +59,7 @@ model Student {
 
   classes           StudentClass[]
   attendanceRecords AttendanceRecord[]
+  marks             Mark[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -100,12 +101,15 @@ model AcademicYear {
 }
 
 model Subject {
-  id             String            @id @default(auto()) @map("_id") @db.ObjectId
-  name           String            @unique
-  lessons        Lesson[]
-  teachers       SubjectTeachers[]
-  academicYearId String            @db.ObjectId
-  AcademicYear   AcademicYear      @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+
+  lessons  Lesson[]
+  teachers SubjectTeachers[]
+  marks    Mark[]
+
+  academicYearId String       @db.ObjectId
+  AcademicYear   AcademicYear @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -195,6 +199,7 @@ model Exam {
   academicYear   AcademicYear @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
   academicYearId String       @db.ObjectId
   grades         Grade[]
+  marks          Mark[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -211,4 +216,21 @@ model Grade {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Mark {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  obtained Int
+
+  exam      Exam    @relation(fields: [examId], references: [id], onDelete: Cascade)
+  examId    String  @db.ObjectId
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId String  @db.ObjectId
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  subjectId String  @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([examId, studentId, subjectId])
 }

@@ -1,5 +1,6 @@
 import {
   StudentWithAttendance,
+  StudentWithMark,
   StudentWithUser,
   StudentWithUserAndClasses,
 } from "@/types";
@@ -50,6 +51,46 @@ export const getAll = async ({
   }
 };
 
+type UpdateParams = {
+  userId: string;
+  data: Partial<StudentWithUser>;
+};
+
+export const update = async ({ userId, data }: UpdateParams) => {
+  try {
+    const response = await axiosInstance.put(`/students/${userId}`, data);
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Axios error: ${error.message}`);
+    } else {
+      throw new Error(`Unexpected error: ${error}`);
+    }
+  }
+};
+
+type DeleteMultipleParams = {
+  ids: string[];
+};
+
+export const deleteMultiple = async ({ ids }: DeleteMultipleParams) => {
+  try {
+    const response = await axiosInstance.post(`/students/delete-multiple`, {
+      ids,
+    });
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Axios error: ${error.message}`);
+    } else {
+      throw new Error(`Unexpected error: ${error}`);
+    }
+  }
+};
+
+// get with others table
 type GetStudentWithAttendanceParams = {
   classId: string;
   date?: string;
@@ -89,35 +130,32 @@ export const getStudentWithAttendance = async ({
     }
   }
 };
-
-type UpdateParams = {
-  userId: string;
-  data: Partial<StudentWithUser>;
+type GetStudentWithMarkParams = {
+  classId: string;
+  examId: string;
+  subjectId: string;
 };
 
-export const update = async ({ userId, data }: UpdateParams) => {
+type GetStudentWithMarkResponse = {
+  data: StudentWithMark[];
+};
+
+export const getStudentWithMark = async ({
+  classId,
+  examId,
+  subjectId,
+}: GetStudentWithMarkParams) => {
   try {
-    const response = await axiosInstance.put(`/students/${userId}`, data);
-
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(`Axios error: ${error.message}`);
-    } else {
-      throw new Error(`Unexpected error: ${error}`);
-    }
-  }
-};
-
-type DeleteMultipleParams = {
-  ids: string[];
-};
-
-export const deleteMultiple = async ({ ids }: DeleteMultipleParams) => {
-  try {
-    const response = await axiosInstance.post(`/students/delete-multiple`, {
-      ids,
-    });
+    const response = await axiosInstance.get<GetStudentWithMarkResponse>(
+      "/students/mark",
+      {
+        params: {
+          classId,
+          examId,
+          subjectId,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {

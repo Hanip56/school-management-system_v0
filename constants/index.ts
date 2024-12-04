@@ -24,6 +24,7 @@ import { GrGroup } from "react-icons/gr";
 import { FaInfo, FaAngleDoubleUp } from "react-icons/fa";
 import { CiViewList } from "react-icons/ci";
 import { MdViewTimeline } from "react-icons/md";
+import { IoCheckmarkDoneSharp } from "react-icons/io5";
 
 export const weekdays = [
   "Sunday",
@@ -160,6 +161,11 @@ export const navigations: NavListType[] = [
         label: "Exam grades",
         href: "/exams/grades",
         icon: TbPoint,
+      },
+      {
+        label: "Marks entry",
+        href: "/exams/marks",
+        icon: IoCheckmarkDoneSharp,
       },
     ],
   },
