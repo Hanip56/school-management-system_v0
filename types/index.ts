@@ -5,7 +5,6 @@ import {
   Grade,
   Lesson,
   Mark,
-  SexType,
   Student,
   StudentClass,
   Subject,
@@ -43,7 +42,7 @@ export type StudentWithAttendance = {
 export type StudentWithMark = {
   id: string;
   user: { id: string; username: string };
-  marks: Mark[];
+  marks: (Mark & { subject: Subject })[];
 };
 //===============
 

@@ -133,7 +133,7 @@ export const getStudentWithAttendance = async ({
 type GetStudentWithMarkParams = {
   classId: string;
   examId: string;
-  subjectId: string;
+  subjectId?: string;
 };
 
 type GetStudentWithMarkResponse = {

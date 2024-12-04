@@ -5,11 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     await checkIsAdmin();
-    const classId = req.nextUrl.searchParams.get("classId") || "";
-    const examId = req.nextUrl.searchParams.get("examId") || "";
-    const subjectId = req.nextUrl.searchParams.get("subjectId") || "";
+    const classId = req.nextUrl.searchParams.get("classId") || undefined;
+    const examId = req.nextUrl.searchParams.get("examId") || undefined;
+    const subjectId = req.nextUrl.searchParams.get("subjectId") || undefined;
 
-    if (!classId || !examId || !subjectId)
+    if (!classId || !examId)
       return new NextResponse("Required field is missing", { status: 400 });
 
     const students = await prisma.student.findMany({
@@ -32,6 +32,9 @@ export async function GET(req: NextRequest) {
           where: {
             examId,
             subjectId,
+          },
+          include: {
+            subject: true,
           },
         },
       },

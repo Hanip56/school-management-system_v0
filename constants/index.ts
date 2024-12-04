@@ -25,6 +25,7 @@ import { FaInfo, FaAngleDoubleUp } from "react-icons/fa";
 import { CiViewList } from "react-icons/ci";
 import { MdViewTimeline } from "react-icons/md";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
+import { BiSolidReport } from "react-icons/bi";
 
 export const weekdays = [
   "Sunday",
@@ -166,6 +167,11 @@ export const navigations: NavListType[] = [
         label: "Marks entry",
         href: "/exams/marks",
         icon: IoCheckmarkDoneSharp,
+      },
+      {
+        label: "Tabulation sheet",
+        href: "/exams/tabulation",
+        icon: BiSolidReport,
       },
     ],
   },
