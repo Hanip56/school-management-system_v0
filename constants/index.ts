@@ -23,7 +23,13 @@ import { HiOutlineUserPlus, HiMiniPencilSquare } from "react-icons/hi2";
 import { GrGroup } from "react-icons/gr";
 import { FaInfo, FaAngleDoubleUp } from "react-icons/fa";
 import { CiViewList } from "react-icons/ci";
-import { MdViewTimeline } from "react-icons/md";
+import {
+  MdAccountBalance,
+  MdCalendarMonth,
+  MdCategory,
+  MdMoney,
+  MdViewTimeline,
+} from "react-icons/md";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { BiSolidReport } from "react-icons/bi";
 
@@ -172,6 +178,29 @@ export const navigations: NavListType[] = [
         label: "Tabulation sheet",
         href: "/exams/tabulation",
         icon: BiSolidReport,
+      },
+    ],
+  },
+  {
+    type: "multiple",
+    label: "Accounting",
+    href: "/accounting",
+    icon: MdAccountBalance,
+    sub: [
+      {
+        label: "Generate monthly fee",
+        href: "/accounting/generate-monthly-fee",
+        icon: MdCalendarMonth,
+      },
+      {
+        label: "Generate custom fee",
+        href: "/accounting/generate-custom-fee",
+        icon: MdMoney,
+      },
+      {
+        label: "Fee category",
+        href: "/accounting/fee-category",
+        icon: MdCategory,
       },
     ],
   },

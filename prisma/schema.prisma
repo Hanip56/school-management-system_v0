@@ -60,6 +60,7 @@ model Student {
   classes           StudentClass[]
   attendanceRecords AttendanceRecord[]
   marks             Mark[]
+  Invoice           Invoice[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -136,6 +137,7 @@ model Class {
   lessons          Lesson[]
   AttendanceRecord AttendanceRecord[]
   Exam             Exam[]
+  FeeStructure     FeeStructure[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -233,4 +235,67 @@ model Mark {
   updatedAt DateTime @updatedAt
 
   @@unique([examId, studentId, subjectId])
+}
+
+enum FeeCategoryType {
+  CUSTOM
+  MONTHLY
+}
+
+model FeeCategory {
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  name         String          @unique
+  type         FeeCategoryType @default(CUSTOM)
+  FeeStructure FeeStructure[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FeeStructure {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  class      Class       @relation(fields: [classId], references: [id])
+  classId    String      @db.ObjectId
+  category   FeeCategory @relation(fields: [categoryId], references: [id])
+  categoryId String      @db.ObjectId
+  amount     Int
+
+  Invoice Invoice[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([classId, categoryId])
+}
+
+model Invoice {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId      String       @db.ObjectId
+  feeStructure   FeeStructure @relation(fields: [feeStructureId], references: [id])
+  feeStructureId String       @db.ObjectId
+  originalAmount Int
+  discountAmount Int?
+  totalAmount    Int
+  amountDue      Int
+  dueDate        DateTime
+  status         Boolean      @default(false)
+
+  FeePayment FeePayment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FeePayment {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  invoice       Invoice  @relation(fields: [invoiceId], references: [id])
+  invoiceId     String   @db.ObjectId
+  amountPaid    Int
+  paymentMode   String
+  transactionId String?
+  paymentDate   DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

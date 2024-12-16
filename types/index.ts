@@ -2,6 +2,8 @@ import {
   AttendanceRecord,
   Class,
   Exam,
+  FeeCategory,
+  FeeStructure,
   Grade,
   Lesson,
   Mark,
@@ -58,3 +60,4 @@ export type ExamWithClass = Exam & {
   class: Class;
 };
 export type GradeWithExam = Grade & { exam: Exam };
+export type FeeStructureWithCategory = FeeStructure & { category: FeeCategory };
